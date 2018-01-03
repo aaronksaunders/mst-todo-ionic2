@@ -17,6 +17,7 @@ npm install --save mobx-angular mobx mobx-state-tree
 Look into quokka for testing out state tree before integrating it into the application
 
 - https://quokkajs.com/
+- see file `test-mst-1.ts` for how I tested the store before integrating in application
 - visual studio code plugin for it: https://quokkajs.com/docs/#getting-started
 
 Starting with this code to layout the fields for the Todo object that we are using
@@ -184,8 +185,9 @@ See mobx-angular documentation for more information -> https://github.com/mobxjs
 ```
 At this point the application should run and you should see the items appearing in the list again.
 
- Connect the addItem function to the todoStore
-
- Update the UI using mobxautorun
-
- Move store to seperate file and make it a provider
+- [TODO] Connect the addItem function to the todoStore connect to application
+- [TODO] Connect the deleteItem function to the todoStore
+- [TODO] Add list-item-swipe to list to implement deleteItem
+- [TODO] Connect delete action in UI to delete in todoStore
+- [TODO] Move store to seperate file and make it a provider
+- [TODO] Connect angularfire2
