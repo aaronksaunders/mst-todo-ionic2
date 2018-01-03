@@ -4,6 +4,8 @@
 - The Mobx-State-Tree Example from here: https://github.com/mobxjs/mobx-state-tree
 - And finally the mobx-angular example found here: https://github.com/mobxjs/mobx-angular
 
+The above lists the source materials for the example, I am just pulling it all together here. **There is no overview of the todo app here at all, see the referenced blog post for those materials.** We will be starting with the assumption you have that application functioning on your own
+
 ## Installation Requirements for The Mobx State Tree
 
 ```console
@@ -55,11 +57,11 @@ console.log(getSnapshot(x1))
 
 will get the correct output
 
-```json
-​​​​​{
+```javascript
+{
   title: 'Aaron',​​​​​
-​​​​​  description: 'Test Description',​​​​​
-​​​​​  when: 'Tue Jan 02 2018 22:20:02 GMT-0500 (EST)'
+  description: 'Test Description',​​​​​
+  when: 'Tue Jan 02 2018 22:20:02 GMT-0500 (EST)'
 }​​​​​
 ```
 
