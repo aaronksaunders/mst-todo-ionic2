@@ -1,3 +1,8 @@
+
+Work In Progress...
+Please log questions and comments as issues
+--
+
 # Mobx-State-Tree Ionic Framework
 
 - Based on Ionic Todo Example from here https://www.joshmorony.com/build-a-todo-app-from-scratch-with-ionic-2-video-tutorial/
