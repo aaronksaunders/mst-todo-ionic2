@@ -98,10 +98,15 @@ let theStore = TodoStore.create({})
 ```
 
  we can fix the problem using the `types.optional` with a default value for the array which you can see in the code.
+ ```javascript
+  // will throw error when creating the object
+ todos : types.maybe(types.array(Todo)) 
+ 
+ // will default to an empty array when creating the object
+ todos : types.optional(types.array(Todo),[]) 
+ ```
 
- we will add the first function to add items to the `todoStore` that was created
-
- we will also us the type of the `Todo` object to ensure that we get the type checking when attempting to create the object
+We will add the first function to add items to the `todoStore` that was created; notice the type of the `Todo` object to ensure that we get the type checking when attempting to create the object
  ```javascript
  const TodoStore = types.model("TodoStore", {
     todos : types.optional(types.array(Todo),[])
@@ -110,11 +115,21 @@ let theStore = TodoStore.create({})
         self.todos.push(Todo.create(_value))
     }
 }))
+
+// 1) create the store
+let theStore = TodoStore.create({})
+
+// 2) create a todo
+theStore.addItem({
+    title: "Aaron",
+    description: "Test Description",
+    when: new Date() + ""
+})
  ```
 
-### Add the store to the angular application
+### Add the Mobx State Tree store to the angular application
 
- paste the following code in the beginning of home.ts
+Paste the following code in the beginning of `home.ts` file. This is a temporary solution to show the integration of the store. We will eventually create a provider and inject the store using DI
 
  ```javascript
  import { types, onSnapshot, getSnapshot } from "mobx-state-tree"
@@ -142,13 +157,14 @@ const TodoStore = types.model("TodoStore", {
 Modify constructor by adding the following lines of code to the `home.ts` file
 ```javascript
 
-    let items = [
-      { title: 'hi1', description: 'test1', when: "2018-01-03T02:12:12.766Z" },
-      { title: 'hi2', description: 'test2', when: "2018-01-02T02:52:12.766Z" },
-      { title: 'hi3', description: 'test3', when: "2018-01-01T01:52:12.766Z" }
-    ];
+let items = [
+  { title: 'hi1', description: 'test1', when: "2018-01-03T02:12:12.766Z" },
+  { title: 'hi2', description: 'test2', when: "2018-01-02T02:52:12.766Z" },
+  { title: 'hi3', description: 'test3', when: "2018-01-01T01:52:12.766Z" }
+];
 
-    this.todoStore = TodoStore.create({ todos: items })
+// create the store with a default set of items
+this.todoStore = TodoStore.create({ todos: items })
 
 ```
 Modify properties for the page by adding the following lines of code to the `home.ts` file
@@ -173,7 +189,7 @@ finally open up the `home.html` and add the `*mobxAutorun` directive to the page
 
 also notice where we are accessing the list of `todos` directly from the `todoStore.todos` property
 
-See mobx-angular documentation for more information -> https://github.com/mobxjs/mobx-angular
+See mobx-angular documentation for more information on `*mobxAutorun` directive -> https://github.com/mobxjs/mobx-angular
 
 ```html
 
