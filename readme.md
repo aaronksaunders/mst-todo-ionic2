@@ -1,8 +1,4 @@
 
-Work In Progress...
-Please log questions and comments as issues
---
-
 # Mobx-State-Tree Ionic Framework
 
 - Based on Ionic Todo Example from here https://www.joshmorony.com/build-a-todo-app-from-scratch-with-ionic-2-video-tutorial/
@@ -15,6 +11,11 @@ The above lists the source materials for the example, I am just pulling it all t
 
 ```console
 npm install --save mobx-angular mobx mobx-state-tree
+npm install --save-dev mobx-devtools-mst   // dev tools
+```
+This next requirement is because the normal npm package has not been updated yet to support the latest version of mobx so we need to use the fork at this time
+```console
+npm install --save-dev mobx-remotedev@git+ssh://git@github.com/crayonzx/mobx-remotedev.git
 ```
 
 ## Starting The Mobx State Tree
@@ -111,7 +112,7 @@ We will add the first function to add items to the `todoStore` that was created;
  const TodoStore = types.model("TodoStore", {
     todos : types.optional(types.array(Todo),[])
 }).actions(self => ({
-    addItem(_value: typeof Todo.Type) {
+    addItem(_value) {
         self.todos.push(Todo.create(_value))
     }
 }))
@@ -146,7 +147,7 @@ const Todo = types.model("Todo", {
 const TodoStore = types.model("TodoStore", {
   todos: types.optional(types.array(Todo), [])
 }).actions(self => ({
-  addItem(_value: typeof Todo.Type) {
+  addItem(_value) {
     self.todos.push(Todo.create(_value))
   }
 }))
@@ -206,9 +207,68 @@ See mobx-angular documentation for more information on `*mobxAutorun` directive 
 ```
 At this point the application should run and you should see the items appearing in the list again.
 
-- [TODO] Connect the addItem function to the todoStore connect to application
+## Move store to seperate file and make it a provider
+
+see the store code in `mst-store.ts`; no changes other than thos covered below to make it work as an Injectable provider
+
+To get the mobx-state-tree to act as a provider, I needed to do the following in the store file I created
+```typescript
+// normal reqirement for a provider on angular2
+@Injectable()
+
+// code so that you can used the redux-dev-tools
+@remotedev({ name: 'TodoStore-aks', global: true, onlyActions: true })
+
+// we need to create a class that can be exported that represents the store..
+export default class Store {
+    constructor() {
+        
+        // create an instance of the store...
+        let myStore = TodoStore.create({})
+        
+        // this allows the mst-dev-tool to inspect the store
+        makeInspectable(myStore);
+        
+        // return the actual store as the object which can be injected into
+        // you angular components
+        return myStore as ITodoStoreType
+    }
+}
+
+```
+## Access the store from your components
+
+define a property on your component to hold the injected store, we are defining the type 
+so we can get the code completion functionality from your editor
+```typescript
+public todoStore: ITodoStoreType
+```  
+
+Next use the store as you would any other provider
+```typescript
+  constructor(
+    public navCtrl: NavController,
+    public modalCtrl: ModalController,
+    public _todoStore: TodoStore) {
+
+    this.todoStore = _todoStore as ITodoStore
+
+  }
+  ```
+  
+## Add the item to the store
+  
+Just use the same code as before, we are just using the store that was injected into the component instead of creating one locally
+
+```typescript
+if (item) {
+  item.when = new Date() + ""
+  this.todoStore.addItem(item)
+}
+```
+https://github.com/aaronksaunders/mst-todo-ionic2/blob/master/src/pages/home/home.ts#L58
+
 - [TODO] Connect the deleteItem function to the todoStore
 - [TODO] Add list-item-swipe to list to implement deleteItem
 - [TODO] Connect delete action in UI to delete in todoStore
-- [TODO] Move store to seperate file and make it a provider
 - [TODO] Connect angularfire2
