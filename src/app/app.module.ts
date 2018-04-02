@@ -10,6 +10,7 @@ import { HomePage } from '../pages/home/home';
 
 // MOBX
 import { MobxAngularModule } from 'mobx-angular';
+import  TodoStore from "../mst-store"
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { MobxAngularModule } from 'mobx-angular';
   providers: [
     StatusBar,
     SplashScreen,
+    TodoStore,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })

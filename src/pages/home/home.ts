@@ -1,32 +1,12 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { NavController, ModalController } from 'ionic-angular';
 import { AddItemPage } from '../add-item/add-item';
-import { types, onSnapshot, getSnapshot, destroy } from "mobx-state-tree"
+
+// MST
+import TodoStore, { ITodoStore, ITodoStoreType } from "../../mst-store"
 
 
-// TEMP, WILL MOVE LATER
-const Todo = types.model("Todo", {
-  title: types.string,
-  description: types.string,
-  when: types.string
-}).actions(self => ({
-  delete() {
-    destroy(self)
-  }
-}))
 
-
-const TodoStore = types.model("TodoStore", {
-  todos: types.optional(types.array(Todo), [])
-}).actions(self => ({
-  addItem(_value: typeof Todo.Type) {
-    self.todos.push(Todo.create(_value))
-  },
-  deleteItem(_item) {
-    _item.delete()
-  }
-}))
-// TEMP, WILL MOVE LATER
 
 
 @Component({
@@ -37,7 +17,7 @@ const TodoStore = types.model("TodoStore", {
 export class HomePage {
 
   public items;
-  public todoStore: typeof TodoStore.Type
+  public todoStore: ITodoStoreType
 
   /**
    * Creates an instance of HomePage.
@@ -45,22 +25,22 @@ export class HomePage {
    * @param {ModalController} modalCtrl 
    * @memberof HomePage
    */
-  constructor(public navCtrl: NavController, public modalCtrl: ModalController) {
+  constructor(
+    public navCtrl: NavController,
+    public modalCtrl: ModalController,
+    public _todoStore: TodoStore) {
 
-    let items = [
-      { title: 'hi1', description: 'test1', when: "2018-01-03T02:12:12.766Z" },
-      { title: 'hi2', description: 'test2', when: "2018-01-02T02:52:12.766Z" },
-      { title: 'hi3', description: 'test3', when: "2018-01-01T01:52:12.766Z" }
-    ];
-
-    this.todoStore = TodoStore.create({ todos: items })
-
-    console.log(getSnapshot(this.todoStore.todos))
+    this.todoStore = _todoStore as ITodoStore
 
   }
 
   ionViewDidLoad() {
 
+    this.todoStore.addItem({
+      title: 'hi1',
+      description: 'test1',
+      when: "2018-01-03T02:12:12.766Z"
+    })
 
   }
 
