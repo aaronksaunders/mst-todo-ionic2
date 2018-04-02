@@ -1,6 +1,8 @@
 
 # Mobx-State-Tree Ionic Framework
 
+### This has been updated to the latest versions of Ionic, mobx and mobx-state-tree as of April 2018
+
 - Based on Ionic Todo Example from here https://www.joshmorony.com/build-a-todo-app-from-scratch-with-ionic-2-video-tutorial/
 - The Mobx-State-Tree Example from here: https://github.com/mobxjs/mobx-state-tree
 - And finally the mobx-angular example found here: https://github.com/mobxjs/mobx-angular
