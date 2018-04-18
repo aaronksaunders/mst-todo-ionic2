@@ -6,6 +6,7 @@
 - Based on Ionic Todo Example from here https://www.joshmorony.com/build-a-todo-app-from-scratch-with-ionic-2-video-tutorial/
 - The Mobx-State-Tree Example from here: https://github.com/mobxjs/mobx-state-tree
 - And finally the mobx-angular example found here: https://github.com/mobxjs/mobx-angular
+- add some unit testing for the store based on template here: https://github.com/roblouie/unit-testing-demo
 
 The above lists the source materials for the example, I am just pulling it all together here. **There is no overview of the todo app here at all, see the referenced blog post for those materials.** We will be starting with the assumption you have that application functioning on your own
 
