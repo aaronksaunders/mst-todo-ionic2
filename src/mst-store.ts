@@ -5,6 +5,7 @@ import remotedev from 'mobx-remotedev/lib/dev';
 import makeInspectable from 'mobx-devtools-mst';
 
 const Todo = types.model("Todo", {
+    id : types.identifier(),
     title: types.string,
     description: types.string,
     when: types.string

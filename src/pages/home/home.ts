@@ -57,7 +57,6 @@ export class HomePage {
 
       if (item) {
         item.when = new Date() + ""
-
         this.todoStore.addItem(item)
       }
 
